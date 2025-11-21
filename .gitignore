@@ -1,0 +1,8 @@
+*.o
+*.a
+*.d
+*.out
+.vscode
+.mandatory_done
+.bonus_done
+*.dSYM

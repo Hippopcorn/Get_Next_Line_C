@@ -1,0 +1,4 @@
+chat
+chien
+cheval
+loutre
