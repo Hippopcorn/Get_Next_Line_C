@@ -1,0 +1,19 @@
+- lire et compter le nombre de caracteres dans une ligne
+- faire une fonction count_caract_line qui compte les caracteres d'une ligne pour pouvoir malloc la size
+
+tant que :
+- lire le buff static
+- read
+- regarder si il y a un \n dans le buffer
+    si \n : on stocke les caracteres avant le \n
+    sinon : on stocke tout
+- faire un autre buffer plus grand où on memcpy le premier buff et on rajoute la 
+suite avec un strlcat et on free le premier buff
+
+- utiliser une variable static pour stocker ce qu'il y a apres le \n.
+- stocker le buffer dans un char * en faisant un malloc du nb de caracteres retenus
+
+
+
+
+
