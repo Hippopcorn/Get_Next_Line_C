@@ -5,64 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 11:49:16 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/22 22:54:43 by elsa             ###   ########.fr       */
+/*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
+/*   Updated: 2025/11/24 19:24:55 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char    *get_next_line(int fd)
+char    *get_next_line_v2(int fd)
 {
-	char			*buf;
-    char            *line;   
-	static char		*next_line;
-	int				nb_read;
-    int             i_end;
+    char    *buf;
+	char	*line;
+	char	*line_temp;
+    int nb_read; 
     
-    
-    // recuperer le debut de la ligne si il a été stocké
-    if (next_line != NULL)
+	while (ft_strchr_index(line, '\n') == -1) // tant qu'on est pas tombé sur un \n
     {
-        // si il y a un autre \n, on malloc une taille de 0 a l'index de \n, on fait une substr 
-        //de next_line jusqu'au \n et on la retourne en conservant la fin de next_line
-        i_end = ft_strchr_index(next_line, '\n');
-        if (i_end != -1)
-        {
-            line = malloc((i_end + 2) * sizeof(char));  // +2 pour avoir l'indice 0 et pour rajouter un \0 a la fin
-            ft_strlcpy(line, next_line, i_end + 1);  // +1 pour inclure l'index 0 dans la copy
-            line[i_end + 1] = '\0';
-            // on recupere la fin de next_line
-            char *temp = ft_substr(next_line, i_end + 1, (ft_strlen(next_line) - i_end + 1));
-            //free (next_line);
-            next_line = malloc(ft_strlen(temp + 1) * sizeof(char));
-            next_line = temp;
-            return (line);
-        }
-        else    
-        {
-            // si il n'y a pas de \n, on malloc une taille de la taille de next_line
-            line = malloc(ft_strlen(next_line) * sizeof(char));
-            ft_strlcpy(line, next_line, ft_strlen(next_line));
-            //free(next_line);  
-        }
-    }
+		nb_read = -1;
+    	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
+   		if (!buf)
+    		return (NULL);
+    	nb_read = read(fd, buf, BUFFER_SIZE);
+    	if (nb_read == -1 || nb_read == 0) // modifier pour dans le cas ou on lit rien
+        	return (NULL);
+    	buf[nb_read] = '\0';  
+		
+		// on malloc une taille ok pour contenir line + le buf
+		line_temp = malloc ((ft_strlen(get_line_until_end(buf)) + ft_strlen(line) + 1) * sizeof(char));
+		
+		// on ajoute le retour de get_line_until_end a notre ligne
+		ft_strlcpy(line_temp, line, ft_strlen(line)); // on copie line dans line temp
+		ft_strlcpy(line_temp, get_line_until_end(buf), ft_strlen(get_line_until_end(buf))); // on ajoute le buf
+		free(line); // ca va pas ca 
+		free(buf);
+	}
+    return (line);
+}
 
-    // on a une line vide ou une line avec un début de ligne dedans
+// retourne buf jusqu'a \n ou buf entier
+char    *get_line_until_end(char *buf)
+{
+    int     i_end_line;
     
-    buf = malloc(BUFFER_SIZE * sizeof(char));
-	nb_read = read(fd, buf, BUFFER_SIZE);
-    // retourne un pointer sur la permiere occ de '\n'ou NULL si pas de \n
-    next_line = ft_strchr(buf, '\n'); 
-    if (next_line != NULL) 
-    {
-         next_line++; // pour exclure le \n dans buf_mem
-    }
-    else // tant qu'on est pas tombé sur un \n, il faut faire une boucle pour continuer de lire
-    {
-        // si next_line = null, on ajoute tout le buf dans line
-        // on realloc de la place puis strlcat
-        ft_strlcat(line, buf, BUFFER_SIZE);   
-    }
-    
+    i_end_line = ft_strchr_index(buf, '\n');
+    if (i_end_line != -1)
+        return(ft_substr(buf, 0, i_end_line + 1)); // str, i_start et len 
+    return (buf);
 }

@@ -1,5 +1,6 @@
 - lire et compter le nombre de caracteres dans une ligne
-- faire une fonction count_caract_line qui compte les caracteres d'une ligne pour pouvoir malloc la size
+- faire une fonction count_caract_line qui compte les caracteres d'une ligne 
+pour pouvoir malloc la size
 
 tant que :
 - lire le buff static
@@ -15,5 +16,10 @@ suite avec un strlcat et on free le premier buff
 
 
 
-
+-----------
+GNL v1 
+1. lire le fichier BUFFER_SIZE par BUFFER_SIZE
+2. retourner BUFFER_SIZE que jusqu'au premier \n ou fin buff
+3. on boucle pour lire plusieurs fois jusqu'a avoir la ligne entiere jusqu'au 1er \n ou \0
+4. Write a function that returns a line read from a fd
 

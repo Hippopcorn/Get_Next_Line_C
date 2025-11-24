@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/23 21:39:19 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/24 19:15:41 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,29 +67,29 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (result);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	unsigned int	len_dest;
-	unsigned int	len_src;
-	char			*src_cast;
-	size_t			i;
+// size_t	ft_strlcat(char *dst, const char *src, size_t size)
+// {
+// 	unsigned int	len_dest;
+// 	unsigned int	len_src;
+// 	char			*src_cast;
+// 	size_t			i;
 
-	src_cast = (char *)src;
-	len_src = ft_strlen(src_cast);
-	len_dest = ft_strlen(dst);
-	i = 0;
-	if (size <= len_dest)
-		return (len_src + size);
-	if (size == 0)
-		return (len_src);
-	while (src_cast[i] != '\0' && i < (size - len_dest - 1))
-	{
-		dst[len_dest + i] = src_cast[i];
-		i++;
-	}
-	dst[len_dest + i] = '\0';
-	return (len_dest + len_src);
-}
+// 	src_cast = (char *)src;
+// 	len_src = ft_strlen(src_cast);
+// 	len_dest = ft_strlen(dst);
+// 	i = 0;
+// 	if (size <= len_dest)
+// 		return (len_src + size);
+// 	if (size == 0)
+// 		return (len_src);
+// 	while (src_cast[i] != '\0' && i < (size - len_dest - 1))
+// 	{
+// 		dst[len_dest + i] = src_cast[i];
+// 		i++;
+// 	}
+// 	dst[len_dest + i] = '\0';
+// 	return (len_dest + len_src);
+// }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -101,12 +101,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	end = start + len;
 	if (start >= ft_strlen(s))
-		return (ft_calloc(1, sizeof(char)));
+		return (malloc(sizeof(char)));
 	if (end >= ft_strlen(s))
 		alloc = ft_strlen(s) - start;
 	else
 		alloc = len;
-	substring = ft_calloc((alloc + 1), sizeof(char));
+	substring = malloc((alloc + 1 * sizeof(char)));
 	if (!substring)
 		return (NULL);
 	while (start < end && start < ft_strlen(s))
@@ -120,6 +120,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
+size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 // int	ft_open_file(const char *file)
 // {
