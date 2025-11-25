@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/24 19:15:41 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/25 13:47:43 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	ft_strchr_index(const char *s, int c)
 	char	*s_cast;
 
 	i = 0;
+	if (!s)
+		return (-1);
 	s_cast = (char *)s;
 	while (s_cast[i] != '\0')
 	{
@@ -67,29 +69,29 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (result);
 }
 
-// size_t	ft_strlcat(char *dst, const char *src, size_t size)
-// {
-// 	unsigned int	len_dest;
-// 	unsigned int	len_src;
-// 	char			*src_cast;
-// 	size_t			i;
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	unsigned int	len_dest;
+	unsigned int	len_src;
+	char			*src_cast;
+	size_t			i;
 
-// 	src_cast = (char *)src;
-// 	len_src = ft_strlen(src_cast);
-// 	len_dest = ft_strlen(dst);
-// 	i = 0;
-// 	if (size <= len_dest)
-// 		return (len_src + size);
-// 	if (size == 0)
-// 		return (len_src);
-// 	while (src_cast[i] != '\0' && i < (size - len_dest - 1))
-// 	{
-// 		dst[len_dest + i] = src_cast[i];
-// 		i++;
-// 	}
-// 	dst[len_dest + i] = '\0';
-// 	return (len_dest + len_src);
-// }
+	src_cast = (char *)src;
+	len_src = ft_strlen(src_cast);
+	len_dest = ft_strlen(dst);
+	i = 0;
+	if (size <= len_dest)
+		return (len_src + size);
+	if (size == 0)
+		return (len_src);
+	while (src_cast[i] != '\0' && i < (size - len_dest - 1))
+	{
+		dst[len_dest + i] = src_cast[i];
+		i++;
+	}
+	dst[len_dest + i] = '\0';
+	return (len_dest + len_src);
+}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -125,6 +127,8 @@ size_t	ft_strlen(const char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
