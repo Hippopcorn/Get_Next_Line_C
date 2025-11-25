@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/25 15:37:41 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:04:04 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,12 @@ void test_ft_GNL_file1_v3_test2(void)
 	TEST_ASSERT_MESSAGE(fd != -1, "Test failed at the aperture");
 	
 	TEST_ASSERT_EQUAL_STRING("- lire et compter le nombre de caracteres dans une ligne\n", get_next_line_v3(fd));
-	TEST_ASSERT_EQUAL_STRING("compte les caracteres d'une ligne\n", get_next_line_v3(fd));
+	TEST_ASSERT_EQUAL_STRING("- faire une fonction count_caract_line qui compte les caracteres d'une ligne\n", get_next_line_v3(fd));
+	TEST_ASSERT_EQUAL_STRING("pour pouvoir malloc la size\n", get_next_line_v3(fd));
+	TEST_ASSERT_EQUAL_STRING("\n", get_next_line_v3(fd));
+	TEST_ASSERT_EQUAL_STRING("tant que :\n", get_next_line_v3(fd));
+	TEST_ASSERT_EQUAL_STRING("- lire le buff static\n", get_next_line_v3(fd));
+	TEST_ASSERT_EQUAL_STRING("- read\n", get_next_line_v3(fd));
 
 	
 	//TEST_ASSERT_NULL(get_next_line_v3(fd));

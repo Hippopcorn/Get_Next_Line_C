@@ -1,5 +1,5 @@
 - lire et compter le nombre de caracteres dans une ligne
-- faire une fonction count_caract_line qui compte les caracteres d'une ligne 
+- faire une fonction count_caract_line qui compte les caracteres d'une ligne
 pour pouvoir malloc la size
 
 tant que :
