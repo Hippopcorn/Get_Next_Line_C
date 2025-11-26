@@ -6,11 +6,16 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:53 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 11:46:35 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:31:59 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 353
+#ifndef GET_NEXT_LINE_H
+#define GET_NEXT_LINE_H
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 50
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,3 +34,5 @@ char    *get_line_until_end(char *buf);
 void	*ft_realloc(void *ptr, size_t size);
 void	*ft_memcpy( void *dest, const void *src, size_t n);
 int		count_carac(char *str, char c);
+
+#endif

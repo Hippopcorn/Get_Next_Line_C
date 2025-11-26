@@ -1,0 +1,37 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/13 11:40:40 by evarache          #+#    #+#              #
+#    Updated: 2025/11/26 13:24:15 by evarache         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+
+SOURCES = get_next_line.c get_next_line_utils.c tests/unity/unity.c tests/gnl_tests.c
+
+OBJECTS = $(SOURCES:.c=.o)
+NAME = gnl
+
+all: $(NAME)
+
+$(NAME): $(OBJECTS)
+	 $(CC) -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJECTS)
+
+fclean: clean
+	rm -f $(TARGET)
+
+re: fclean all
+
+.PHONY: all clean fclean re

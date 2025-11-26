@@ -6,22 +6,24 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 11:46:16 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:31:23 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 
-char    *get_next_line_v3(int fd)
+char    *get_next_line(int fd)
 {
     char    	*buf;
 	char		*line;
 	char		*current_line;
 	static char	*buf_mem;
     int 		nb_read; 
+	int			eof;
     
 	line = NULL;
+	eof = 0;
 	if (buf_mem != NULL)
 	{
 		//printf("buf_mem = %s\n", buf_mem);
@@ -38,18 +40,28 @@ char    *get_next_line_v3(int fd)
 		}
 			
 	}
-	while (count_carac(line, '\n') != 1) // tant qu'on est pas tombé sur un \n
+
+	//RAJOUTER UNE CONDITION POUR QUITTER LA BOUCLE SI ON A ATTEINT LA FIN DU FICHIER
+	while (count_carac(line, '\n') != 1) // tant qu'on est pas tombé sur un \n ou que nb_read est de la taille de BUFFER_SIZE
     {
 		nb_read = -1;
     	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
    		if (!buf)
     		return (NULL);
     	nb_read = read(fd, buf, BUFFER_SIZE);
+		if (nb_read == 0)
+		{
+			free(buf_mem);
+			buf_mem = NULL;
+			return (line);
+		}
+		//printf("nb_read : %d\n", nb_read);
     	if (nb_read == -1 || nb_read == 0) // modifier pour dans le cas ou on lit rien
-        	return (NULL);
+			return (NULL);
     	buf[nb_read] = '\0';  
+		//printf("buf : %s\n", buf);
 		current_line = get_line_until_end(buf);
-
+		//printf("current_line : %s\n", current_line);
 		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
 		{
 			// stocker la fin
@@ -146,69 +158,46 @@ int	count_carac(char *str, char c)
 	return (count);
 }
 
-int main()
-{
-	int 	fd;
-	char	*line;
+// int main()
+// {
+// 	int 	fd;
+// 	char	*line;
 	
-	fd = open("to_do.txt", O_RDONLY);
+// 	fd = open("to_do.txt", O_RDONLY);
 	
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
-
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
-
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
-
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
-
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
-
-	line =  get_next_line_v3(fd);
-	printf("Result GNL : %s", line);
-	free (line);
-
-}
+// }
 
 // fonctionne avec buffer size 4 a 353
+// pb avec derniere ligne
