@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:53 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 14:31:59 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 14:53:45 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ char    *get_line_until_end(char *buf);
 void	*ft_realloc(void *ptr, size_t size);
 void	*ft_memcpy( void *dest, const void *src, size_t n);
 int		count_carac(char *str, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 10:59:24 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:16:05 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,50 +48,6 @@ int	ft_strchr_index(const char *s, int c)
 	return (-1);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	unsigned int	i;
-	char			*src_cast;
-	size_t				result;
-
-	i = 0;
-	src_cast = (char *)src;
-	result = ft_strlen(src_cast);
-	if (size > 0)
-	{
-		while ((src_cast[i] != '\0') && (i < (size - 1)))
-		{
-			dst[i] = src_cast[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (result);
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	unsigned int	len_dest;
-	unsigned int	len_src;
-	char			*src_cast;
-	size_t			i;
-
-	src_cast = (char *)src;
-	len_src = ft_strlen(src_cast);
-	len_dest = ft_strlen(dst);
-	i = 0;
-	if (size <= len_dest)
-		return (len_src + size);
-	if (size == 0)
-		return (len_src);
-	while (src_cast[i] != '\0' && i < (size - len_dest - 1))
-	{
-		dst[len_dest + i] = src_cast[i];
-		i++;
-	}
-	dst[len_dest + i] = '\0';
-	return (len_dest + len_src);
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -134,54 +90,33 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-// int	ft_open_file(const char *file)
-// {
-// 	int fd;
-	
-// 	fd = open(file, O_RDONLY);
-// 	if (fd == -1)
-// 		return (1);
-// 	return (fd);
-// }
-// the read function returns the number of characters that it has read, or -1 in case of error. return 0 when it is at the end of the file (EOF)
-// size_t read(int fd, void *buf, size_t count);
+// Allocates memory (using malloc(3)) and returns a new string, 
+// which is the result of concatenating ’s1’ and ’s2’.
 
-// int    ft_count_carac(int fd)
-// {
-// 	char	buf[BUFFER_SIZE];
-// 	size_t	nb_carac;
-// 	int		nb_read;
-	
-// 	nb_read = -1; //count the nb of carac read
-// 	nb_carac = 0;
-// 	while (nb_read != 0)
-// 	{
-// 		nb_read = read(fd, buf, BUFFER_SIZE);
-// 		if (nb_read == -1)
-// 			return (0);
-// 		nb_carac += nb_read;
-// 	}
-// 	return (nb_carac);
-// }
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*new_string;
+	size_t	i;
+	size_t	i_s2;
+	size_t	new_len;
 
-
-// char	*ft_get_file(int fd, int nb_carac)
-// {
-// 	//int	i;
-// 	char	*buf;
-	
-// 	buf = malloc((nb_carac + 1) * sizeof(char));
-// 	 read(fd, buf, nb_carac);
-// 	//buf[i] = '\0';
-// 	return (buf);
-// }
-
-
-// int main()
-// {
-// 	int fd;
-	
-// 	fd = ft_open_file("cat.txt");
-//     printf("%d\n", ft_count_carac(fd));
-//     printf("%s\n", ft_get_file(fd, ft_count_carac(fd)));
-// }
+	i = 0;
+	i_s2 = 0;
+	new_len = ft_strlen(s1) + ft_strlen(s2);
+	new_string = malloc(new_len + 1 * sizeof(char));
+	if (!new_string)
+		return (NULL);
+	while (i < ft_strlen(s1))
+	{
+		new_string[i] = s1[i];
+		i++;
+	}
+	while (i < new_len)
+	{
+		new_string[i] = s2[i_s2];
+		i++;
+		i_s2++;
+	}
+	new_string[i + 1] = '\0';
+	return (new_string);
+}
