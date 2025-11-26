@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 14:32:56 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:49:18 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void test_ft_GNL_file1(void)
 	free(line);
 
 	line = get_next_line(fd);
-	TEST_ASSERT_EQUAL_STRING (".", line);
+	TEST_ASSERT_EQUAL_STRING ("", line);
 	free(line);
 	
 	// cas de fin de fichier

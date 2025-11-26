@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 15:25:50 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 15:46:11 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ char    *get_next_line(int fd)
 	{
 		line = malloc (ft_strlen(get_line_until_end(buf_mem)) + 1 * sizeof(char));
 		ft_memcpy(line, get_line_until_end(buf_mem), ft_strlen(get_line_until_end(buf_mem)) + 1);
+		
 		if (line != buf_mem)  // si on a trouvé un \n dans buf_mem, on garde dans buf_meme que la fin apres le \n
 			buf_mem = ft_substr(buf_mem, ft_strchr_index(buf_mem, '\n') + 1,
 			(ft_strlen(buf_mem) + 1) - (ft_strchr_index(buf_mem, '\n') + 1));	
 	}
+	
 	while (ft_strchr_index(line, '\n') == -1) // tant qu'on est pas tombé sur un \n ou que nb_read est de la taille de BUFFER_SIZE
     {
 		nb_read = -1;
@@ -37,6 +39,7 @@ char    *get_next_line(int fd)
    		if (!buf)
     		return (NULL);
     	nb_read = read(fd, buf, BUFFER_SIZE);
+		
 		if (nb_read == 0)   // on a atteint la fin du fichier
 		{
 			free(buf_mem);
@@ -47,8 +50,10 @@ char    *get_next_line(int fd)
 			return (NULL);
     	buf[nb_read] = '\0';  
 		current_line = get_line_until_end(buf);
+		
 		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
 			buf_mem = (ft_strchr(buf, '\n') + 1);
+			
 		line = ft_strjoin(line, current_line);
 		free(buf);
 	}
@@ -134,4 +139,3 @@ void	*ft_memcpy( void *dest, const void *src, size_t n)
 // }
 
 // fonctionne avec buffer size 4 a 353
-// pb avec derniere ligne
