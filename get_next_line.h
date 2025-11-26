@@ -6,11 +6,11 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:53 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 11:08:27 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:46:35 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 50
+#define BUFFER_SIZE 353
 
 #include <stdio.h>
 #include <stdlib.h>

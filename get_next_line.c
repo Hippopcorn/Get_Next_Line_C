@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 11:30:51 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:46:16 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char    *get_next_line_v3(int fd)
 		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
 		{
 			// stocker la fin
-			buf_mem = ft_substr(buf, ft_strchr_index(buf, '\n') + 1, ft_strlen(buf) - (ft_strchr_index(buf, '\n') + 1));   // a modifier
+			buf_mem = ft_substr(buf, ft_strchr_index(buf, '\n') + 1, (ft_strlen(buf) + 1) - (ft_strchr_index(buf, '\n') + 1));   // a modifier
 		}
 		// on malloc une taille ok pour contenir line + le buf
 		
@@ -149,25 +149,66 @@ int	count_carac(char *str, char c)
 int main()
 {
 	int 	fd;
+	char	*line;
 	
 	fd = open("to_do.txt", O_RDONLY);
 	
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
-	printf("Result GNL : %s", get_next_line_v3(fd));
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
+
+	line =  get_next_line_v3(fd);
+	printf("Result GNL : %s", line);
+	free (line);
 
 }
+
+// fonctionne avec buffer size 4 a 353
