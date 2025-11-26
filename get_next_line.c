@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/25 17:07:55 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:30:51 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,19 @@ char    *get_next_line_v3(int fd)
 	line = NULL;
 	if (buf_mem != NULL)
 	{
-		printf("buf_mem = %s\n", buf_mem);
-		printf("get_line_until_end = %s\n", get_line_until_end(buf_mem));
-		
+		//printf("buf_mem = %s\n", buf_mem);
+		//printf("get_line_until_end = %s\n", get_line_until_end(buf_mem));
 		line = malloc (ft_strlen(get_line_until_end(buf_mem)) + 1 * sizeof(char));
+		ft_memcpy(line, get_line_until_end(buf_mem), ft_strlen(get_line_until_end(buf_mem)) + 1);  //OK
+		//printf("line : %s\n", line);
 		
-		ft_memcpy(line, get_line_until_end(buf_mem), ft_strlen(get_line_until_end(buf_mem)) + 1);
-		printf("line : %s\n", line);
 		if (line != buf_mem)  // si on a trouvé un \n dans buf_mem
 		{
-			buf_mem = ft_substr(buf_mem, ft_strchr_index(buf, '\n') + 1, BUFFER_SIZE);  // on restocke la fin de buf_mem
-			printf("buf_mem : %s\n", buf_mem);
-		}	
+			buf_mem = ft_realloc(ft_substr(buf_mem, ft_strchr_index(buf_mem, '\n') + 1, (ft_strlen(buf_mem) + 1)
+			- (ft_strchr_index(buf_mem, '\n') + 1)), (ft_strlen(buf_mem) + 1) - (ft_strchr_index(buf_mem, '\n') + 1));  // on restocke la fin de buf_mem // pb : on pert un carac a la fin a chaque fois qu'on stocke 
+			//printf("buf_mem : %s\n", buf_mem);
+		}
+			
 	}
 	while (count_carac(line, '\n') != 1) // tant qu'on est pas tombé sur un \n
     {
@@ -52,12 +53,10 @@ char    *get_next_line_v3(int fd)
 		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
 		{
 			// stocker la fin
-			buf_mem = ft_substr(buf, ft_strchr_index(buf, '\n') + 1, BUFFER_SIZE);
-			//printf("buf_mem = %s\n", buf_mem);
+			buf_mem = ft_substr(buf, ft_strchr_index(buf, '\n') + 1, ft_strlen(buf) - (ft_strchr_index(buf, '\n') + 1));   // a modifier
 		}
-		//printf("current_line : %s\n", current_line);
-		
 		// on malloc une taille ok pour contenir line + le buf
+		
 		line = ft_realloc (line, (ft_strlen(current_line) + ft_strlen(line) + 1) * sizeof(char));  // realloc agrandis la taille malloc et met line dedans
 		//printf("line before add current_line : %s\n", line);
 		
@@ -76,7 +75,7 @@ char    *get_line_until_end(char *buf)
     int     i_end_line;
     
     i_end_line = ft_strchr_index(buf, '\n');
-	printf("i_end_line : %d\n", i_end_line);
+	//printf("i_end_line : %d\n", i_end_line);
     if (i_end_line != -1)
         return(ft_substr(buf, 0, i_end_line + 1)); // str, i_start et len 
     return (buf);
@@ -147,7 +146,28 @@ int	count_carac(char *str, char c)
 	return (count);
 }
 
-// int main()
-// {
-// 	printf("%d\n", count_carac("\n", '\n'));
-// }
+int main()
+{
+	int 	fd;
+	
+	fd = open("to_do.txt", O_RDONLY);
+	
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+	printf("Result GNL : %s", get_next_line_v3(fd));
+
+}

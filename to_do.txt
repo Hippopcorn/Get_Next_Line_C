@@ -8,7 +8,7 @@ tant que :
 - regarder si il y a un \n dans le buffer
     si \n : on stocke les caracteres avant le \n
     sinon : on stocke tout
-- faire un autre buffer plus grand où on memcpy le premier buff et on rajoute la 
+- faire un autre buffer plus grand ou on memcpy le premier buff et on rajoute la
 suite avec un strlcat et on free le premier buff
 
 - utiliser une variable static pour stocker ce qu'il y a apres le \n.
