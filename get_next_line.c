@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/27 09:06:33 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/27 10:04:13 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ char    *get_next_line(int fd)
 	{
 		line = malloc (ft_strlen(get_line_until_end(buf_mem)) + 1 * sizeof(char));
 		ft_memcpy(line, get_line_until_end(buf_mem), ft_strlen(get_line_until_end(buf_mem)) + 1);
-		
 		if (line != buf_mem)  // si on a trouvé un \n dans buf_mem, on garde dans buf_meme que la fin apres le \n
 			buf_mem = ft_substr(buf_mem, ft_strchr_index(buf_mem, '\n') + 1,
 			(ft_strlen(buf_mem) + 1) - (ft_strchr_index(buf_mem, '\n') + 1));	
 	}
-	
 	while (ft_strchr_index(line, '\n') == -1) // tant qu'on est pas tombé sur un \n ou que nb_read est de la taille de BUFFER_SIZE
     {
 		nb_read = -1;
@@ -39,35 +37,15 @@ char    *get_next_line(int fd)
    		if (!buf)
     		return (NULL);
     	nb_read = read(fd, buf, BUFFER_SIZE);
-		
-		if (nb_read == 0)   // on a atteint la fin du fichier
-		{
-			free(buf_mem);
-			buf_mem = NULL;
-			return (line);
-		}
-    	if (nb_read == -1) // si on a une erreur a la lecture, on return NULL
-		{
-			free(buf_mem);
-			return (NULL);
-		}
+		if (nb_read == 0 || nb_read == -1)
+			return (error_handling(nb_read, &buf_mem, line));
     	buf[nb_read] = '\0';  
 		current_line = get_line_until_end(buf);
-		//printf("buf : %s\n", buf);
-		//printf("current_line : %s\n", current_line);
-		
 		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
-			//buf_mem = (ft_strchr(buf, '\n') + 1);   // remplacer par substr
 			buf_mem = (ft_substr(buf, (ft_strchr_index(buf, '\n') + 1), (ft_strlen(buf) + 1) - (ft_strchr_index(buf, '\n') + 1)));   
-			//printf("buf_mem au debut  : %s\n", buf_mem);
-
-			line = ft_strjoin(line, current_line);
-
-			free(buf);  // on perd buf_mem
-			//printf("buf_mem apres free buf : %s\n", buf_mem);
-
-		}
-	//printf("buf_mem de fin : %s\n", buf_mem);
+		line = ft_strjoin(line, current_line);
+		free(buf);
+	}
     return (line);
 }
 
@@ -83,7 +61,17 @@ char    *get_line_until_end(char *buf)
     return (buf);
 }
 
-
+char	*error_handling(int nb_read, char **buf_mem, char *line)
+{
+	if (nb_read == 0)   // on a atteint la fin du fichier
+	{
+		free(*buf_mem);
+		*buf_mem = NULL;
+		return (line);
+	}
+	free(*buf_mem);
+	return (NULL);
+}
 // ft_memcpy copies n bytes from memory area src to memory 
 // area dest. The memory areas must not overlap.  
 // Use memmove(3) if the memory areas do overlap.
