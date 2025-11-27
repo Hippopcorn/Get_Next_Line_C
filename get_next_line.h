@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:53 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 15:43:13 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/27 08:56:32 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define GET_NEXT_LINE_H
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 50
+# define BUFFER_SIZE 10000000
 #endif
 
 #include <stdio.h>

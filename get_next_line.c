@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 15:46:11 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/27 09:06:33 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,27 @@ char    *get_next_line(int fd)
 			return (line);
 		}
     	if (nb_read == -1) // si on a une erreur a la lecture, on return NULL
+		{
+			free(buf_mem);
 			return (NULL);
+		}
     	buf[nb_read] = '\0';  
 		current_line = get_line_until_end(buf);
+		//printf("buf : %s\n", buf);
+		//printf("current_line : %s\n", current_line);
 		
 		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
-			buf_mem = (ft_strchr(buf, '\n') + 1);
-			
-		line = ft_strjoin(line, current_line);
-		free(buf);
-	}
+			//buf_mem = (ft_strchr(buf, '\n') + 1);   // remplacer par substr
+			buf_mem = (ft_substr(buf, (ft_strchr_index(buf, '\n') + 1), (ft_strlen(buf) + 1) - (ft_strchr_index(buf, '\n') + 1)));   
+			//printf("buf_mem au debut  : %s\n", buf_mem);
+
+			line = ft_strjoin(line, current_line);
+
+			free(buf);  // on perd buf_mem
+			//printf("buf_mem apres free buf : %s\n", buf_mem);
+
+		}
+	//printf("buf_mem de fin : %s\n", buf_mem);
     return (line);
 }
 
@@ -103,6 +114,7 @@ void	*ft_memcpy( void *dest, const void *src, size_t n)
 // 	char	*line;
 	
 // 	fd = open("to_do.txt", O_RDONLY);
+// 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
 	
 // 	line =  get_next_line(fd);
 // 	printf("Result GNL : %s", line);

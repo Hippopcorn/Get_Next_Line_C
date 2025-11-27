@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_tests.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/26 15:49:18 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/27 08:57:54 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ void test_ft_GNL_file_empty(void)
 	TEST_ASSERT_NULL(get_next_line(-1));
 	TEST_ASSERT_NULL(get_next_line(20000)); // fd fermé ou inexistant
 
-	
 	close(fd);
 }
 
 int main(void) {
     UNITY_BEGIN();
+	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
     RUN_TEST(test_ft_GNL_file1);
     RUN_TEST(test_ft_GNL_file_empty);
     return UNITY_END();
