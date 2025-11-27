@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/27 10:04:13 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/27 21:07:05 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,86 +15,112 @@
 
 char    *get_next_line(int fd)
 {
-    char    	*buf;
+    char    	*line_temp;
 	char		*line;
-	char		*current_line;
 	static char	*buf_mem;
-    int 		nb_read; 
+	int			i_cut;
+	//char		*line_read;
     
 	line = NULL;
 	if (buf_mem != NULL)
 	{
-		line = malloc (ft_strlen(get_line_until_end(buf_mem)) + 1 * sizeof(char));
-		ft_memcpy(line, get_line_until_end(buf_mem), ft_strlen(get_line_until_end(buf_mem)) + 1);
-		if (line != buf_mem)  // si on a trouvé un \n dans buf_mem, on garde dans buf_meme que la fin apres le \n
-			buf_mem = ft_substr(buf_mem, ft_strchr_index(buf_mem, '\n') + 1,
-			(ft_strlen(buf_mem) + 1) - (ft_strchr_index(buf_mem, '\n') + 1));	
+		i_cut = ft_strchr_index(buf_mem, '\n');
+		if (i_cut == -1)
+			i_cut = ft_strlen(buf_mem);
+		line = malloc (i_cut + 1 * sizeof(char));
+		ft_memmove(line, buf_mem, i_cut + 1);
+		ft_memmove(buf_mem, buf_mem + i_cut, (ft_strlen(buf_mem) + 1) - (i_cut + 1));
+		buf_mem = ft_realloc(buf_mem, ft_strlen(buf_mem) + 1 - (i_cut + 1));
 	}
-	while (ft_strchr_index(line, '\n') == -1) // tant qu'on est pas tombé sur un \n ou que nb_read est de la taille de BUFFER_SIZE
+	while (ft_strchr_index(line, '\n') == -1)
     {
-		nb_read = -1;
-    	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));  // est ce vraiment necessaire?
-   		if (!buf)
-    		return (NULL);
-    	nb_read = read(fd, buf, BUFFER_SIZE);
-		if (nb_read == 0 || nb_read == -1)
-			return (error_handling(nb_read, &buf_mem, line));
-    	buf[nb_read] = '\0';  
-		current_line = get_line_until_end(buf);
-		if (current_line != buf) // si on a coupé le buf pour ne récupérer que le début
-			buf_mem = (ft_substr(buf, (ft_strchr_index(buf, '\n') + 1), (ft_strlen(buf) + 1) - (ft_strchr_index(buf, '\n') + 1)));   
-		line = ft_strjoin(line, current_line);
-		free(buf);
+		line_temp = line;  // 
+		line = read_file(&buf_mem, line, fd);
+		if (line == NULL || line_temp == line)
+			return (line);
 	}
     return (line);
 }
 
-// retourne buf jusqu'a \n ou buf entier
-char    *get_line_until_end(char *buf)
+char	*read_file(char **buf_mem, char *line, int fd)
 {
-    int     i_end_line;
-    
-    i_end_line = ft_strchr_index(buf, '\n');
-	//printf("i_end_line : %d\n", i_end_line);
-    if (i_end_line != -1)
-        return(ft_substr(buf, 0, i_end_line + 1)); // str, i_start et len 
-    return (buf);
+    int 		nb_read; 
+    char    	*buf;
+	char		*current_line;
+	int			i_cut;
+
+	nb_read = -1;
+	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buf)
+		return (NULL);	
+	nb_read = read(fd, buf, BUFFER_SIZE);
+	if (nb_read == 0 || nb_read == -1)  //  a voir 
+	{
+		free(buf);
+		return (error_handling(nb_read, buf_mem, line));	
+	}
+	buf[nb_read] = '\0';  
+	
+	i_cut = ft_strchr_index(buf, '\n');
+	current_line = get_line_until_end(buf, &i_cut);
+	
+	free(*buf_mem);
+    *buf_mem = ft_substr(buf, i_cut + 1, ft_strlen(buf) - (i_cut + 1));
+	
+	line = ft_strjoin(line, current_line);
+	free(buf);
+	return (line);
+	
+}
+
+// retourne buf jusqu'a \n ou buf entier
+char    *get_line_until_end(char *buf, int *i_cut)
+{
+	if (*i_cut == -1)
+		*i_cut = ft_strlen(buf);
+    //if (i_cut != -1)
+    return(ft_substr(buf, 0, *i_cut + 1)); // str, i_start et len 
+    //return (buf);
 }
 
 char	*error_handling(int nb_read, char **buf_mem, char *line)
 {
+	if (*buf_mem != NULL)
+		free(*buf_mem);
 	if (nb_read == 0)   // on a atteint la fin du fichier
 	{
-		free(*buf_mem);
 		*buf_mem = NULL;
 		return (line);
 	}
-	free(*buf_mem);
 	return (NULL);
 }
-// ft_memcpy copies n bytes from memory area src to memory 
-// area dest. The memory areas must not overlap.  
-// Use memmove(3) if the memory areas do overlap.
 
-void	*ft_memcpy( void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char			*dest_cast;
-	char			*src_cast;
-	unsigned char	i;
+	size_t	i;
 
 	i = 0;
-	dest_cast = (char *)dest;
-	src_cast = (char *)src;
 	if (dest == NULL && src == NULL)
 		return (NULL);
-	while (i < n)
+	if (dest < src)
 	{
-		dest_cast[i] = src_cast[i];
-		i++;
+		while (i < n)
+		{
+			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+			i++;
+		}
+	}
+	else
+	{
+		i = n;
+		while (i != 0)
+		{
+			((unsigned char *)dest)[i - 1] = ((unsigned char *)src)[i - 1];
+			i--;
+		}
 	}
 	return (dest);
 }
-
 
 // int main()
 // {

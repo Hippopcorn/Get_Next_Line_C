@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/27 09:11:57 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/27 20:38:40 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	end = start + len;
 	if (start >= ft_strlen(s))
-		return (malloc(sizeof(char)));
+		return (NULL);
 	if (end >= ft_strlen(s))
 		alloc = ft_strlen(s) - start;
 	else
@@ -101,8 +101,34 @@ char	*ft_strjoin(char const *s1, char const *s2)
     new = malloc(len1 + len2 + 1);
     if (!new)
         return (NULL);
-    ft_memcpy(new, s1, len1);
-    ft_memcpy(new + len1, s2, len2 + 1);
+    ft_memmove(new, s1, len1);
+    ft_memmove(new + len1, s2, len2 + 1);
     free((char*)s1);
+	free((char*)s2);
     return (new);
+}
+
+
+
+void *ft_realloc(void *ptr, size_t size) // imaginons ptr = line et size est la nouvelle taille
+{ 
+	void *dup; 
+	size_t len; 
+	if (!ptr) 
+		return(malloc(size)); 
+	if (size == 0) 
+	{
+		 free(ptr); 
+		 return (NULL); 
+	} 
+	dup = malloc(size); 
+	if (!dup)
+		return (NULL); 
+	len = ft_strlen((char *)ptr); //printf("len of line : %zu\n", len); 
+	if (len > size - 1)
+		len = size - 1; 
+	ft_memmove(dup, ptr, len); 
+	((char *)dup)[len] = '\0'; 
+	free(ptr); 
+	return (dup); 
 }

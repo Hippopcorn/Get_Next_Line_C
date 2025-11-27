@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:53 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/27 10:02:51 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/27 20:40:23 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define GET_NEXT_LINE_H
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10000000
+# define BUFFER_SIZE 10
 #endif
 
 #include <stdio.h>
@@ -27,9 +27,11 @@ char	*ft_strchr(const char *s, int c);
 int		ft_strchr_index(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
-char    *get_line_until_end(char *buf);
-void	*ft_memcpy( void *dest, const void *src, size_t n);
+char    *get_line_until_end(char *buf, int *i_cut);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*error_handling(int nb_read, char **buf_mem, char *line);
+char	*read_file(char **buf_mem, char *line, int fd);
+void    *ft_realloc(void *ptr, size_t size);
+void	*ft_memmove(void *dest, const void *src, size_t n);
 
 #endif
