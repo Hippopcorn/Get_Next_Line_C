@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_tests.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/28 00:14:47 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/28 08:44:03 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,6 @@ int main(void) {
     UNITY_BEGIN();
 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
     RUN_TEST(test_ft_GNL_file1);
-    // RUN_TEST(test_ft_GNL_file_empty);
+    RUN_TEST(test_ft_GNL_file_empty);
     return UNITY_END();
 }
