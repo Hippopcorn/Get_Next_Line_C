@@ -68,7 +68,7 @@ char    *get_next_line_v_juju(int fd)
 			
 			if (static_buf != NULL)
 			{
-				return(static_buf);	
+				free(static_buf);	
 				static_buf = NULL; // si jamais on call plusieurs fois la fonction, pour eviter de free un truc deja free
 			}
 			if (ft_strlen(line) == 0) // si on a rien lu, ca veut pas dire qu'il n'y a plus rien a retourner!

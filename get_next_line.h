@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:53 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/28 00:14:49 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/28 17:08:40 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t	ft_strlen(const char *str);
 char    *get_line_until_end(char *buf, int *i_cut);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*error_handling(int nb_read, char *line);
-char	*read_file(char **buf_mem, char *line, int fd);
+char	*read_file(int fd);
 char	*read_file_v_juju(int fd);
 void    *ft_realloc(void *ptr, size_t size);
 void	*ft_memmove(void *dest, const void *src, size_t n);

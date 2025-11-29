@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/28 13:48:56 by evarache         ###   ########.fr       */
+/*   Updated: 2025/11/29 11:03:07 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,22 @@ char    *get_next_line(int fd)
 	i_new_line = ft_strchr_index(static_buf, '\n');
 	while (i_new_line == -1)
 	{
+		//printf("WHILE\n");
 		line = read_file(fd);
 
 		if (line == NULL)
 		{
+			if (ft_strlen(static_buf) != 0)
+				break;
+			
 			if (static_buf != NULL)
-				return (static_buf);
+			{
+				free (static_buf);
+				static_buf = NULL;
+			}
+			return (NULL);
 		}
-
+		//printf("static_buf 1 :%s\n", static_buf);
 		// on realloc static_buf pour qu'il puisse contenir static_buf + line
 		static_buf = ft_realloc(static_buf, ft_strlen(static_buf) + ft_strlen(line) + 1);
 		ft_memmove(static_buf + ft_strlen(static_buf), line, ft_strlen(line));
@@ -37,16 +45,32 @@ char    *get_next_line(int fd)
 		i_new_line = ft_strchr_index(static_buf, '\n');
 		free(line);
 	}
-	// on a static_buf avec tout dedans, reste a decouper 
-	line = malloc (i_new_line + 2 * sizeof(char));  // + 2 pour avoir la len et rajouter un \0
-	ft_memmove(line, static_buf, i_new_line + 1);
-	line[i_new_line + 1] = '\0';
 
-	rest_len = ft_strlen(static_buf) - (i_new_line + 1); // on calcule le reste a garder
-	ft_memmove(static_buf, static_buf + i_new_line + 1, rest_len);  //on memmove et on realloc
-	static_buf[rest_len] = '\0';
-	static_buf = ft_realloc(static_buf, rest_len + 1);
-
+	if (i_new_line == -1)
+	{
+		line = malloc (ft_strlen(static_buf) + 1 * sizeof(char));  // + 2 pour avoir la len et rajouter un \0
+		
+		ft_memmove(line, static_buf, ft_strlen(static_buf));
+		line[ft_strlen(static_buf) + 1] = '\0';
+		free (static_buf);
+		static_buf = NULL;
+		//return (static_buf);
+	}
+	//printf("i_new_line :%d\n", i_new_line);
+	else 
+	{
+		// on a static_buf avec tout dedans, reste a decouper 
+		line = malloc (i_new_line + 2 * sizeof(char));  // + 2 pour avoir la len et rajouter un \0
+		ft_memmove(line, static_buf, i_new_line + 1);
+		line[i_new_line + 1] = '\0';
+		//printf("line :%s\n", line);
+		
+		rest_len = ft_strlen(static_buf) - (i_new_line + 1); // on calcule le reste a garder
+		ft_memmove(static_buf, static_buf + i_new_line + 1, rest_len);  //on memmove et on realloc
+		static_buf[rest_len] = '\0';
+		static_buf = ft_realloc(static_buf, rest_len + 1);
+	}
+	
 	return (line);
 }
 
@@ -116,46 +140,46 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-int main()
-{
-	int 	fd;
-	char	*line;
+// int main()
+// {
+// 	int 	fd;
+// 	char	*line;
 	
-	fd = open("to_do.txt", O_RDONLY);
-	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
+// 	fd = open("to_do.txt", O_RDONLY);
+// 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
 	
-	line =  get_next_line(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	line =  get_next_line(fd);
-	printf("Result GNL : %s", line);
-	free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	// line =  get_next_line(fd);
-	// printf("Result GNL : %s", line);
-	// free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	// line =  get_next_line(fd);
-	// printf("Result GNL : %s", line);
-	// free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	// line =  get_next_line(fd);
-	// printf("Result GNL : %s", line);
-	// free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	// line =  get_next_line(fd);
-	// printf("Result GNL : %s", line);
-	// free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	// line =  get_next_line(fd);
-	// printf("Result GNL : %s", line);
-	// free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-	// line =  get_next_line(fd);
-	// printf("Result GNL : %s", line);
-	// free (line);
+// 	line =  get_next_line(fd);
+// 	printf("Result GNL : %s", line);
+// 	free (line);
 
-}
+// }
 
 // fonctionne avec buffer size 4 a 353	
