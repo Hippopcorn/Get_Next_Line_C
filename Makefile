@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 11:40:40 by evarache          #+#    #+#              #
-#    Updated: 2025/11/26 13:24:15 by evarache         ###   ########.fr        #
+#    Updated: 2025/11/29 12:26:23 by elsa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,5 +33,8 @@ fclean: clean
 	rm -f $(TARGET)
 
 re: fclean all
+
+test: re $(NAME)
+	./$(NAME)
 
 .PHONY: all clean fclean re
