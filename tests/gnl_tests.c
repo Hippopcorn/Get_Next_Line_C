@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/30 18:20:42 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/30 21:12:14 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,52 @@ void test_ft_GNL_file_empty(void)
 	close(fd);
 }
 
+void test_ft_GNL_one_line_no_nl(void)
+{
+	int 	fd;
+	
+	fd = open("tests/one_line_no_nl.txt", O_RDONLY);
+	// fd ne doit pas etre egal a -1, sinon erreur
+	TEST_ASSERT_MESSAGE(fd != -1, "Test failed at the aperture");
+	
+	char *line = get_next_line(fd);
+	TEST_ASSERT_EQUAL_STRING ("abcdefghijklmnopqrstuvwxyz", line);
+	free(line);
+
+	// cas de fin de fichier
+	line = get_next_line(fd);
+	TEST_ASSERT_NULL (line);
+
+	// cas d'erreurs
+	TEST_ASSERT_NULL(get_next_line(-1));
+	TEST_ASSERT_NULL(get_next_line(20000)); // fd fermé ou inexistant
+	
+	close(fd);
+}
+
+void test_ft_GNL_1char(void)
+{
+	int 	fd;
+	
+	fd = open("tests/1char.txt", O_RDONLY);
+	// fd ne doit pas etre egal a -1, sinon erreur
+	TEST_ASSERT_MESSAGE(fd != -1, "Test failed at the aperture");
+	
+	char *line = get_next_line(fd);
+	TEST_ASSERT_EQUAL_STRING ("a", line);
+	free(line);
+
+	// cas de fin de fichier
+	line = get_next_line(fd);
+	TEST_ASSERT_NULL (line);
+
+	// cas d'erreurs
+	TEST_ASSERT_NULL(get_next_line(-1));
+	TEST_ASSERT_NULL(get_next_line(20000)); // fd fermé ou inexistant
+	
+	close(fd);
+}
+
 int main(void) {
     UNITY_BEGIN();
 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
@@ -156,5 +202,7 @@ int main(void) {
     RUN_TEST(test_ft_GNL_file_empty);
     RUN_TEST(test_ft_GNL_41_no_nl);
     RUN_TEST(test_ft_GNL_big_line);
+    RUN_TEST(test_ft_GNL_one_line_no_nl);
+    RUN_TEST(test_ft_GNL_1char);
     return UNITY_END();
 }

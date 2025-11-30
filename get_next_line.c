@@ -6,7 +6,7 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/30 18:56:01 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/30 21:00:00 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 char    *get_next_line(int fd)
 {
 	char		*line;
-	static char	*static_buf;  //buf_mem
+	static char	*static_buf;
 	int			i_new_line;
 	int 		rest_len;
 	int			error;
-	
 	
 	i_new_line = ft_strchr_index(static_buf, '\n');	
 	while (i_new_line == -1)
