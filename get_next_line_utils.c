@@ -6,12 +6,11 @@
 /*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/30 18:38:04 by elsa             ###   ########.fr       */
+/*   Updated: 2025/11/30 19:10:53 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 int	ft_strchr_index(const char *s, int c)
 {
@@ -43,32 +42,31 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char *ft_str_realloc(char *ptr, size_t size)
+char	*ft_str_realloc(char *ptr, size_t size)
 {
-    char *dup; 
-    size_t len; 
-    
-    if (!ptr)
-    {
-        dup = malloc(size);
-        if (!dup)
-            return (NULL);
+	char	*dup;
+	size_t	len;
+
+	if (!ptr)
+	{
+		dup = malloc(size);
+		if (!dup)
+			return (NULL);
 		dup[0] = '\0';
-        return (dup);
-    }
-    if (size == 0) 
-    {
-        free(ptr); 
-        return (NULL); 
-    } 
-    dup = malloc(size); 
-    if (!dup)
-        return (NULL); 
-    len = ft_strlen((char *)ptr);
-    if (len >= size)
-        len = size - 1;
-    ft_memmove(dup, ptr, len);
-    ((char *)dup)[len] = '\0';
-    free(ptr); 
-    return (dup); 
+		return (dup);
+	}
+	if (size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	dup = malloc(size);
+	if (!dup)
+		return (NULL);
+	len = ft_strlen((char *)ptr);
+	if (len >= size)
+		len = size - 1;
+	ft_memmove(dup, ptr, len + 1);
+	free(ptr);
+	return (dup);
 }
