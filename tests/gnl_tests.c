@@ -6,15 +6,14 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/01 08:27:51 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/01 15:14:34 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unity/unity.h"
 
 #include "../get_next_line.h"
-//#define BUFFER_SIZE 1
-
+#include <fcntl.h>
 
 void setUp(void) {}
 
@@ -60,12 +59,6 @@ void test_ft_GNL_file1(void)
 	TEST_ASSERT_NULL(line);
 	free(line);
 
-	// => Je pense que cest faux, tu ne dois pas rien retourner, mais NULL, car il ny a plus rien a lire
-	// "If there is nothing left to read or if an error occurs, it should return NULL"
-	// line = get_next_line_v_juju(fd);
-	// TEST_ASSERT_EQUAL_STRING ("", line);
-	// free(line);
-	
 	// cas de fin de fichier
 	line = get_next_line(fd);
 	TEST_ASSERT_NULL (line);
@@ -78,11 +71,11 @@ void test_ft_GNL_file1(void)
 }
 
 
-void test_ft_GNL_41_no_nl(void)
+void test_ft_GNL_no_nl(void)
 {
 	int 	fd;
 	
-	fd = open("tests/41_no_nl.txt", O_RDONLY);
+	fd = open("tests/no_nl.txt", O_RDONLY);
 	// fd ne doit pas etre egal a -1, sinon erreur
 	TEST_ASSERT_MESSAGE(fd != -1, "Test failed at the aperture");
 	
@@ -200,7 +193,7 @@ int main(void) {
 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
     RUN_TEST(test_ft_GNL_file1);
     RUN_TEST(test_ft_GNL_file_empty);
-    RUN_TEST(test_ft_GNL_41_no_nl);
+    RUN_TEST(test_ft_GNL_no_nl);
     RUN_TEST(test_ft_GNL_big_line);
     RUN_TEST(test_ft_GNL_one_line_no_nl);
     RUN_TEST(test_ft_GNL_1char);
