@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/30 20:40:59 by elsa             ###   ########.fr       */
+/*   Updated: 2025/12/01 09:46:36 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_str_realloc(char *ptr, size_t size)
 	char	*dup;
 	size_t	len;
 
-	if (!ptr)
+	if (!ptr && size != 0)
 	{
 		dup = malloc(size);
 		if (!dup)
@@ -64,7 +64,10 @@ char	*ft_str_realloc(char *ptr, size_t size)
 	}
 	dup = malloc(size);
 	if (!dup)
+	{
+		free(ptr);
 		return (NULL);
+	}
 	len = ft_strlen((char *)ptr);
 	if (len >= size)
 		len = size - 1;

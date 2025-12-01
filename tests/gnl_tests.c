@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_tests.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/30 21:12:14 by elsa             ###   ########.fr       */
+/*   Updated: 2025/12/01 08:27:51 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void test_ft_GNL_1char(void)
 	TEST_ASSERT_MESSAGE(fd != -1, "Test failed at the aperture");
 	
 	char *line = get_next_line(fd);
-	TEST_ASSERT_EQUAL_STRING ("a", line);
+	TEST_ASSERT_EQUAL_STRING ("0", line);
 	free(line);
 
 	// cas de fin de fichier

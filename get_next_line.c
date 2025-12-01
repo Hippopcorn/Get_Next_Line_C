@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/11/30 21:00:00 by elsa             ###   ########.fr       */
+/*   Updated: 2025/12/01 09:47:53 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ char    *get_next_line(int fd)
 
 		static_buf = ft_str_realloc(static_buf, ft_strlen(static_buf) + ft_strlen(line) + 1);
 		if (static_buf == NULL)
+		{
+			free (line);
 			return (NULL);
+		}
 		
 		ft_memmove(static_buf + ft_strlen(static_buf), line, ft_strlen(line) + 1);
 
@@ -58,6 +61,12 @@ char    *get_next_line(int fd)
 	if (i_new_line == -1) // gere si pas de \n dans la derniere ligne
 	{
 		line = malloc (ft_strlen(static_buf) + 1 * sizeof(char));  // + 2 pour avoir la len et rajouter un \0
+		if (!line)
+		{
+			free (static_buf);
+			static_buf = NULL;
+			return (NULL);
+		}
 		
 		ft_memmove(line, static_buf, ft_strlen(static_buf) +1);
 		line[ft_strlen(static_buf)] = '\0';
@@ -68,6 +77,12 @@ char    *get_next_line(int fd)
 	
 	// on a static_buf avec tout dedans, reste a decouper 
 	line = malloc (i_new_line + 2 * sizeof(char));  // + 2 pour avoir la len et rajouter un \0
+	if (!line)
+	{
+		free (static_buf);
+		static_buf = NULL;
+		return (NULL);
+	}
 	ft_memmove(line, static_buf, i_new_line + 1);
 	line[i_new_line + 1] = '\0';
 	
@@ -76,14 +91,15 @@ char    *get_next_line(int fd)
 	static_buf[rest_len] = '\0';
 	static_buf = ft_str_realloc(static_buf, rest_len + 1);
 	if (static_buf == NULL)
+	{
+		free (line);
 		return (NULL);
+	}
 	
 	return (line);
 }
 
-// La fonction fait ce qu'elle dit faire : Elle lit le fichier
-// rien de plus, rien de moins, elle fait pas des trucs chelou en plus
-// c' est une notion importante a avoir en tete ca, rien de plus rien de moins
+
 char	*read_file(int fd, int *error)
 {
     int 		nb_read; 
@@ -92,9 +108,12 @@ char	*read_file(int fd, int *error)
 	*error = 0;
 	buf_read = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buf_read)
-		return (NULL);	
+	{
+		*error = 1;
+		return (NULL);
+	}
 	nb_read = read(fd, buf_read, BUFFER_SIZE);
-	if (nb_read < 0) // error
+	if (nb_read < 0)
 	{
 		*error = 1;
 		free(buf_read);
@@ -110,13 +129,6 @@ char	*read_file(int fd, int *error)
 }
 
 
-
-// char	*error_handling(int nb_read, char *line)
-// {
-// 	if (nb_read == 0)   // on a atteint la fin du fichier
-// 		return (line);
-// 	return (NULL);
-// }
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
@@ -148,39 +160,15 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 // 	int 	fd;
 // 	char	*line;
 	
-// 	fd = open("tests/files/pb.txt", O_RDONLY);
+// 	fd = open("tests/1char.txt", O_RDONLY);
 // 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
 	
 // 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
+// 	printf("Result GNL : %s\n", line);
 // 	free (line);
 
 // 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
-// 	free (line);
-
-// 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
-// 	free (line);
-
-// 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
-// 	free (line);
-
-// 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
-// 	free (line);
-
-// 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
-// 	free (line);
-
-// 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
-// 	free (line);
-
-// 	line =  get_next_line(fd);
-// 	printf("Result GNL : %s", line);
+// 	printf("Result GNL : %s\n", line);
 // 	free (line);
 
 // }
