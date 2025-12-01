@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/01 09:46:36 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/01 10:09:58 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,13 @@ char	*ft_str_realloc(char *ptr, size_t size)
 	char	*dup;
 	size_t	len;
 
-	if (!ptr && size != 0)
+	if (!ptr || size == 0)
 	{
 		dup = malloc(size);
 		if (!dup)
 			return (NULL);
 		dup[0] = '\0';
 		return (dup);
-	}
-	if (size == 0)
-	{
-		free(ptr);
-		return (NULL);
 	}
 	dup = malloc(size);
 	if (!dup)
@@ -69,8 +64,6 @@ char	*ft_str_realloc(char *ptr, size_t size)
 		return (NULL);
 	}
 	len = ft_strlen((char *)ptr);
-	if (len >= size)
-		len = size - 1;
 	ft_memmove(dup, ptr, len + 1);
 	free(ptr);
 	return (dup);
