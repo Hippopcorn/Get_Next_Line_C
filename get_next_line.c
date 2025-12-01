@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/01 09:47:53 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/01 10:13:07 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,30 +130,7 @@ char	*read_file(int fd, int *error)
 
 
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
-{
-	size_t	i;
 
-	i = 0;
-	if (dest == NULL && src == NULL)
-		return (NULL);
-	if (dest < src)
-	{
-		while (i < n)
-		{
-			((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
-			i++;
-		}
-		return (dest);
-	}
-	i = n;
-	while (i != 0)
-	{
-		((unsigned char *)dest)[i - 1] = ((unsigned char *)src)[i - 1];
-		i--;
-	}
-	return (dest);
-}
 
 // int main()
 // {
