@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/02 12:03:45 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:24:58 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 		i_s2++;
 	}
+	free((char*)s1);
 	return (new_string);
 }
 

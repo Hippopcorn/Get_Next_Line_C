@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/02 12:05:26 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:37:02 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static char	*ft_cut_buffer(char *buf, char **line, int i_end_line)
 	
 	rest_len = ft_strlen(*line) - (i_end_line + 1);
 	
-	
 	temp = malloc((ft_strlen(*line) + 1) * sizeof(char));
+	if (!temp)
+		return (ft_free(line));
 	ft_memmove(temp, *line, (ft_strlen(*line) + 1));
 	free(*line);
 	
-	
 	*line = malloc ((i_end_line + 2) * sizeof(char));
 	if (*line == NULL)
-		return (NULL);
+		return (ft_free(&temp));
 	ft_memmove(*line, temp, i_end_line + 1);
 	(*line)[i_end_line + 1] = '\0';
 	
@@ -70,67 +70,36 @@ char	*get_next_line(int fd)
 	int			i_new_line;
 	int			error;
 
-	static_buf[BUFFER_SIZE] = '\0';
-	if (ft_strlen(static_buf) != 0)  // on recupere static_buf et on le met au debut de line et on vide le static_buf
+	if (ft_strlen(static_buf) != 0)
 	{
-		//line = ft_strjoin(static_buf, line);
 		line = malloc((ft_strlen(static_buf) + 1) * sizeof(char));
 		if (!line)
 			return (NULL);
 		ft_memmove(line, static_buf, (ft_strlen(static_buf) + 1)); 
 		ft_bzero(static_buf, ft_strlen(static_buf));
-		static_buf[0] = '\0';
 	}
 	else
 		line = NULL;
-	i_new_line = ft_strchr_index(line, '\n');  // on regarde si on a un \n
-	while (i_new_line == -1)   // tant qu'on a pas de \n, on lit dans static_buff
+	i_new_line = ft_strchr_index(line, '\n');
+	while (i_new_line == -1)
 	{
-		ft_read_file(fd, static_buf, &error);  // je lis dans mon static_buf
-		if (ft_strlen(static_buf) == 0)       // si je n'ai rien lu
+		ft_read_file(fd, static_buf, &error);
+		if (ft_strlen(static_buf) == 0)
 		{
-			if (line && ft_strlen(line) != 0 && error == 0)   // si j'ai quelque chose dans ma ligne, je sors du while
+			if (line && error == 0)
 				break ;                                  
-			return (ft_free(&line));           // si je n'ai rien dans ma ligne, je retourne NULL
+			return (NULL);
 		}
 
-		line = ft_strjoin(line, static_buf);            // je rajoute le buffer lu à la suite de ma ligne
-		i_new_line = ft_strchr_index(line, '\n');    // je recherche un \n
+		line = ft_strjoin(line, static_buf);
+		if (!line)
+		{
+			static_buf[0] = '\0';
+			return (ft_free(&line));
+		}
+		i_new_line = ft_strchr_index(line, '\n');
 	}
 	if (i_new_line != -1)
 		return (ft_cut_buffer(static_buf, &line, i_new_line));
 	return (line);
 }
-
-#include <fcntl.h>
-
-// int	main()
-// {
-// 	int 	fd;
-	
-// 	fd = open("tests/one_big_line.txt", O_RDONLY);
-	
-// 	char *line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-	
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// }
