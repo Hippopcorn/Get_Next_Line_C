@@ -3,26 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/02 16:04:00 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 22:05:40 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_free(char **buf)
+static void	ft_bzero(void *s, size_t n)
 {
-	if (*buf != NULL)
+	unsigned char	*p;
+
+	p = s;
+	while (n > 0)
 	{
-		free(*buf);
-		*buf = NULL;
+		*p = 0;
+		p++;
+		n--;
 	}
-	return (NULL);
 }
 
-void	ft_read_file(int fd, char *buf_read, int *error)
+static void	ft_read_file(int fd, char *buf_read, int *error)
 {
 	int		nb_read;
 
@@ -62,7 +65,6 @@ static char	*ft_cut_buffer(char *buf, char **line, int i_end_line)
 	return (*line);
 }
 
-
 char	*get_next_line(int fd)
 {
 	char		*line;
@@ -89,7 +91,6 @@ char	*get_next_line(int fd)
 				break ;                                  
 			return (ft_free(&line));
 		}
-
 		line = ft_strjoin(line, static_buf);
 		if (!line)
 		{
@@ -100,6 +101,5 @@ char	*get_next_line(int fd)
 	}
 	if (i_new_line != -1)
 		return (ft_cut_buffer(static_buf, &line, i_new_line));
-
 	return (line);
 }

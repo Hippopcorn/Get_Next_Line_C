@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: elsa <elsa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/02 12:24:58 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 22:01:53 by elsa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,6 @@ size_t	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-char	*ft_str_realloc(char *ptr, size_t size)
-{
-	char	*dup;
-	size_t	len;
-
-	if (!ptr || size == 0)
-	{
-		dup = malloc(size);
-		if (!dup)
-			return (NULL);
-		dup[0] = '\0';
-		return (dup);
-	}
-	dup = malloc(size);
-	if (!dup)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	len = ft_strlen((char *)ptr);
-	ft_memmove(dup, ptr, len + 1);
-	free(ptr);
-	return (dup);
 }
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
@@ -110,7 +85,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	new_len = len_s1 + ft_strlen(s2);
 	new_string = malloc(new_len + 1 * sizeof(char));
 	if (!new_string)
-		return (NULL);
+		return (ft_free((char **)&s1));
 	while (i < len_s1)
 	{
 		new_string[i] = s1[i];
@@ -118,23 +93,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	while (i < new_len + 1)
 	{
-		new_string[i] = s2[i_s2];
+		new_string[i] = s2[i_s2++];
 		i++;
-		i_s2++;
 	}
-	free((char*)s1);
+	free((char *)s1);
 	return (new_string);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_free(char **buf)
 {
-	unsigned char	*p;
-
-	p = s;
-	while (n > 0)
+	if (*buf != NULL)
 	{
-		*p = 0;
-		p++;
-		n--;
+		free(*buf);
+		*buf = NULL;
 	}
+	return (NULL);
 }
