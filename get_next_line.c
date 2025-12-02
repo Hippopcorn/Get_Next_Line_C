@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/02 12:37:02 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:39:16 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*get_next_line(int fd)
 		{
 			if (line && error == 0)
 				break ;                                  
-			return (NULL);
+			return (ft_free(&line));
 		}
 
 		line = ft_strjoin(line, static_buf);
