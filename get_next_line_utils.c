@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 11:50:57 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/01 10:13:27 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:03:45 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	size_t	i;
 
 	i = 0;
+	if (n == 0)
+		return (dest);
 	if (dest == NULL && src == NULL)
 		return (NULL);
 	if (dest < src)
@@ -92,4 +94,46 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 		i--;
 	}
 	return (dest);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*new_string;
+	size_t	i;
+	size_t	i_s2;
+	size_t	new_len;
+	size_t	len_s1;
+
+	i = 0;
+	i_s2 = 0;
+	len_s1 = ft_strlen(s1);
+	new_len = len_s1 + ft_strlen(s2);
+	new_string = malloc(new_len + 1 * sizeof(char));
+	if (!new_string)
+		return (NULL);
+	while (i < len_s1)
+	{
+		new_string[i] = s1[i];
+		i++;
+	}
+	while (i < new_len + 1)
+	{
+		new_string[i] = s2[i_s2];
+		i++;
+		i_s2++;
+	}
+	return (new_string);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*p;
+
+	p = s;
+	while (n > 0)
+	{
+		*p = 0;
+		p++;
+		n--;
+	}
 }

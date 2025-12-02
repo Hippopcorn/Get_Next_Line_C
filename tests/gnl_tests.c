@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 20:13:29 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/01 15:14:34 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 11:49:47 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,8 @@ int main(void) {
     RUN_TEST(test_ft_GNL_file1);
     RUN_TEST(test_ft_GNL_file_empty);
     RUN_TEST(test_ft_GNL_no_nl);
-    RUN_TEST(test_ft_GNL_big_line);
     RUN_TEST(test_ft_GNL_one_line_no_nl);
     RUN_TEST(test_ft_GNL_1char);
+    RUN_TEST(test_ft_GNL_big_line);
     return UNITY_END();
 }
