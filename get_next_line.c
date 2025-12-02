@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/02 13:39:16 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:04:00 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ char	*get_next_line(int fd)
 	static char	static_buf[BUFFER_SIZE + 1];
 	int			i_new_line;
 	int			error;
-
+	
+	line = NULL;
 	if (ft_strlen(static_buf) != 0)
 	{
 		line = malloc((ft_strlen(static_buf) + 1) * sizeof(char));
@@ -78,8 +79,6 @@ char	*get_next_line(int fd)
 		ft_memmove(line, static_buf, (ft_strlen(static_buf) + 1)); 
 		ft_bzero(static_buf, ft_strlen(static_buf));
 	}
-	else
-		line = NULL;
 	i_new_line = ft_strchr_index(line, '\n');
 	while (i_new_line == -1)
 	{
@@ -101,5 +100,6 @@ char	*get_next_line(int fd)
 	}
 	if (i_new_line != -1)
 		return (ft_cut_buffer(static_buf, &line, i_new_line));
+
 	return (line);
 }
