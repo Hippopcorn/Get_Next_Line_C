@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/03 10:38:04 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/03 10:37:05 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	ft_bzero(void *s, size_t n)
 {
@@ -83,28 +83,28 @@ static char	*ft_cut_buffer(char *buf, char **line)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	static_buf[BUFFER_SIZE + 1];
+	static char	static_buf[1024][BUFFER_SIZE + 1];
 	int			error;
 
 	line = NULL;
-	if (ft_strlen(static_buf) != 0)
+	if (ft_strlen(static_buf[fd]) != 0)
 	{
-		line = get_static_buf(static_buf);
+		line = get_static_buf(static_buf[fd]);
 		if (!line)
 			return (NULL);
 	}
 	while (ft_strchr_index(line, '\n') == -1)
 	{
-		ft_read_file(fd, static_buf, &error);
-		if (ft_strlen(static_buf) == 0)
+		ft_read_file(fd, static_buf[fd], &error);
+		if (ft_strlen(static_buf[fd]) == 0)
 		{
 			if (error == 1)
 				return (ft_free(&line));
 			break ;
 		}
-		line = ft_strjoin(line, static_buf);
+		line = ft_strjoin(line, static_buf[fd]);
 		if (!line)
 			return (ft_free(&line));
 	}
-	return (ft_cut_buffer(static_buf, &line));
+	return (ft_cut_buffer(static_buf[fd], &line));
 }
