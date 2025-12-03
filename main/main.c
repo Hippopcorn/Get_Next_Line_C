@@ -22,6 +22,10 @@ int main()
 	printf("%s", line);
 	free(line);
 
+	line = get_next_line(-1);
+	printf("%s", line);
+	free(line);
+
 	line = get_next_line(fd2);
 	printf("%s", line);
 	free(line);

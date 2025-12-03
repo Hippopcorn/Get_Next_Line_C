@@ -6,7 +6,7 @@
 /*   By: evarache <evarache@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:34:30 by elsa              #+#    #+#             */
-/*   Updated: 2025/12/03 10:37:05 by evarache         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:44:28 by evarache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	ft_read_file(int fd, char *buf_read, int *error)
 		*error = 1;
 		return ;
 	}
+	if (nb_read == 0)
+		*error = 2;
 	buf_read[nb_read] = '\0';
 }
 
@@ -86,6 +88,8 @@ char	*get_next_line(int fd)
 	static char	static_buf[1024][BUFFER_SIZE + 1];
 	int			error;
 
+	if (fd < 0 || fd > 1024)
+		return (NULL);
 	line = NULL;
 	if (ft_strlen(static_buf[fd]) != 0)
 	{
@@ -96,12 +100,10 @@ char	*get_next_line(int fd)
 	while (ft_strchr_index(line, '\n') == -1)
 	{
 		ft_read_file(fd, static_buf[fd], &error);
-		if (ft_strlen(static_buf[fd]) == 0)
-		{
-			if (error == 1)
-				return (ft_free(&line));
+		if (error == 1)
+			return (ft_free(&line));
+		else if (error == 2)
 			break ;
-		}
 		line = ft_strjoin(line, static_buf[fd]);
 		if (!line)
 			return (ft_free(&line));
